@@ -1,26 +1,42 @@
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, Button } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-const ProductCard = () => {
+const ProductCard = ({title, description, price, image, onPress}) => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.card}>
       <Image
-        source={require("../images/placeholder.webp")}
+        source={image}
         style={styles.image}
       />
-      <Text style={styles.title}>Plop</Text>
-      <Text style={styles.description}>Studio 100 icoon</Text>
+      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.description}>
+        {description}
+      </Text>
+      <Text style={styles.price}>
+        {price}
+      </Text>
+      <Button
+        title="Bekijk product"
+        color="#FF6347"
+        onPress={onPress}
+      />
     </View>
-  );git 
+  );
 };
 
 const styles = StyleSheet.create({
   card: {
-    width: 300,
-    padding: 16,
     backgroundColor: "#fff",
-    borderRadius: 8,
-    marginBottom: 16,
+    borderRadius: 10,
+    padding: 15,
+    marginVertical: 10,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
   },
   image: {
     width: "100%",
@@ -30,12 +46,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: "bold",
-    marginTop: 8,
+    marginTop: 10,
   },
   description: {
     fontSize: 14,
-    color: "#555",
-    marginTop: 4,
+    color: "#666",
+    marginVertical: 5,
   },
 });
 
