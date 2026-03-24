@@ -12,7 +12,9 @@ const ProductDetail = ({ route }) => {
   const { title, description, image, price } = route.params;
   const [quantity, setQuantity] = useState(1);
 
-  const increaseQuantity = () => setQuantity(quantity + 1);
+  const increaseQuantity = () => {
+    setQuantity(quantity + 1);
+  };
 
   const decreaseQuantity = () => {
     if (quantity > 1) {
@@ -22,14 +24,13 @@ const ProductDetail = ({ route }) => {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>HALLOOOO</Text>
-      </View>
-
       <Image source={image} style={styles.image} />
+
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.description}>{description}</Text>
-      <Text style={styles.price}>€{price}</Text>
+      <Text style={styles.price}>€ {price},00 EUR</Text>
+
+      <Text style={styles.label}>Aantal</Text>
 
       <View style={styles.quantityContainer}>
         <TouchableOpacity
@@ -49,7 +50,7 @@ const ProductDetail = ({ route }) => {
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.totalPrice}>Totaal: €{price * quantity}</Text>
+      <Text style={styles.totalPrice}>Totale prijs: € {price * quantity},00</Text>
     </ScrollView>
   );
 };
@@ -57,77 +58,71 @@ const ProductDetail = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#F3EEE7",
     padding: 20,
-    paddingTop: 50,
   },
-
-  header: {
-    alignItems: "center",
-    marginBottom: 20,
-  },
-
-  headerText: {
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-
   image: {
     width: "100%",
-    height: 200,
-    borderRadius: 10,
-    marginBottom: 20,
+    height: 340,
+    borderRadius: 6,
+    marginBottom: 25,
+    resizeMode: "cover",
   },
-
   title: {
-    fontSize: 22,
+    fontSize: 34,
     fontWeight: "bold",
+    color: "#1F1F1F",
+    marginBottom: 15,
   },
-
   description: {
-    fontSize: 16,
-    marginTop: 10,
-    marginBottom: 10,
-  },
-
-  price: {
     fontSize: 18,
-    fontWeight: "bold",
-    color: "#007AFF",
+    lineHeight: 28,
+    color: "#333",
     marginBottom: 20,
   },
-
+  price: {
+    fontSize: 26,
+    fontWeight: "bold",
+    color: "#1F1F1F",
+    marginBottom: 25,
+  },
+  label: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 15,
+    color: "#1F1F1F",
+  },
   quantityContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    marginTop: 20,
+    marginBottom: 25,
   },
-
   quantityButton: {
-    backgroundColor: "#007AFF",
+    backgroundColor: "#A8B1AE",
     paddingVertical: 10,
     paddingHorizontal: 18,
     borderRadius: 8,
-    marginHorizontal: 10,
   },
-
   quantityButtonText: {
-    color: "white",
-    fontSize: 20,
+    color: "#fff",
+    fontSize: 22,
     fontWeight: "bold",
   },
-
   quantityText: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: "bold",
+    marginHorizontal: 20,
+    color: "#1F1F1F",
   },
-
+  totalText: {
+    fontSize: 18,
+    marginBottom: 10,
+    color: "#333",
+  },
   totalPrice: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: "bold",
-    textAlign: "center",
-    marginTop: 25,
+    color: "#1F1F1F",
   },
 });
 

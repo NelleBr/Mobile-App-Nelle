@@ -1,20 +1,18 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, Button } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
-const ProductCard = ({ title, description, price, image, onPress }) => {
+const BlogCard = ({ title, description, image, onPress }) => {
   return (
     <View style={styles.card}>
       <Image source={image} style={styles.image} />
 
       <Text style={styles.title}>{title}</Text>
 
-      <Text style={styles.price}>€ {price},00 EUR</Text>
-
       <Text style={styles.description}>{description}</Text>
 
-      <View style={styles.buttonContainer}>
-        <Button title="Bekijk product" color="#A8B1AE" onPress={onPress} />
-      </View>
+      <TouchableOpacity style={styles.button} onPress={onPress}>
+        <Text style={styles.buttonText}>Bekijk blog →</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -26,7 +24,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 260,
+    height: 240,
     borderRadius: 6,
     marginBottom: 15,
     resizeMode: "cover",
@@ -34,11 +32,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: "bold",
-    color: "#1F1F1F",
-    marginBottom: 8,
-  },
-  price: {
-    fontSize: 18,
     color: "#1F1F1F",
     marginBottom: 10,
   },
@@ -48,9 +41,14 @@ const styles = StyleSheet.create({
     color: "#333",
     marginBottom: 15,
   },
-  buttonContainer: {
-    marginBottom: 10,
+  button: {
+    paddingVertical: 10,
+  },
+  buttonText: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#1F1F1F",
   },
 });
 
-export default ProductCard;
+export default BlogCard;
