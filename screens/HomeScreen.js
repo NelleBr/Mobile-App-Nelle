@@ -148,7 +148,7 @@ const HomeScreen = ({ navigation }) => {
       </View>
 
       <View style={styles.row}>
-        <Text style={styles.label}>Meldingen ontvangen?</Text>
+        <Text style={styles.label}>Wil je Meldingen ontvangen?</Text>
         <Switch onValueChange={toggleSwitch} value={isEnabled} />
       </View>
 
