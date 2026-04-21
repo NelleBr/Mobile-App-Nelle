@@ -28,7 +28,7 @@ const ProductDetail = ({ route }) => {
 
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.description}>{description}</Text>
-      <Text style={styles.price}>€ {price},00 EUR</Text>
+      <Text style={styles.price}>€ {price.toFixed(2)}</Text>
 
       <Text style={styles.label}>Aantal</Text>
 
@@ -50,7 +50,9 @@ const ProductDetail = ({ route }) => {
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.totalPrice}>Totale prijs: € {price * quantity},00</Text>
+      <Text style={styles.totalPrice}>
+        Totale prijs: € {(price * quantity).toFixed(2)}
+      </Text>
     </ScrollView>
   );
 };
@@ -113,11 +115,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginHorizontal: 20,
     color: "#1F1F1F",
-  },
-  totalText: {
-    fontSize: 18,
-    marginBottom: 10,
-    color: "#333",
   },
   totalPrice: {
     fontSize: 22,

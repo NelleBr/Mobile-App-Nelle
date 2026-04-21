@@ -22,14 +22,14 @@ const categoryNames = {
 };
 
 const HomeScreen = ({ navigation }) => {
-  const [isEnabled, setIsEnabled] = useState(false);
+  const [showBlogs, setShowBlogs] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [products, setProducts] = useState([]);
   const [blogs, setBlogs] = useState([]);
   const [sortOption, setSortOption] = useState("price-asc");
 
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  const toggleSwitch = () => setShowBlogs((previousState) => !previousState);
 
   useEffect(() => {
     fetch(
@@ -74,15 +74,25 @@ const HomeScreen = ({ navigation }) => {
     )
       .then((res) => res.json())
       .then((data) => {
-        const formattedBlogs = (data.items || []).map((item) => ({
-          id: item.id,
-          title: item.fieldData?.name,
-          description: item.fieldData?.["post-summary"],
-          image: {
-            uri: item.fieldData?.["main-image"]?.url,
-          },
-          content: item.fieldData?.["post-body"],
-        }));
+        const formattedBlogs = (data.items || []).map((item) => {
+          const rawContent = item.fieldData?.["post-body"] || "";
+
+          const cleanContent = rawContent
+            .replace(/<\/h2>/g, "\n\n")
+            .replace(/<\/p>/g, "\n\n")
+            .replace(/<[^>]*>/g, "")
+            .replace(/&amp;/g, "&");
+
+          return {
+            id: item.id,
+            title: item.fieldData?.name,
+            description: item.fieldData?.["post-summary"],
+            image: {
+              uri: item.fieldData?.["main-image"]?.url,
+            },
+            content: cleanContent,
+          };
+        });
 
         setBlogs(formattedBlogs);
       })
@@ -148,15 +158,19 @@ const HomeScreen = ({ navigation }) => {
       </View>
 
       <View style={styles.row}>
-        <Text style={styles.label}>Wil je Meldingen ontvangen?</Text>
-        <Switch onValueChange={toggleSwitch} value={isEnabled} />
+        <Text style={styles.label}>Toon blogs</Text>
+        <Switch onValueChange={toggleSwitch} value={showBlogs} />
       </View>
 
       <Pressable
         style={styles.button}
-        onPress={() => console.log("Zoek knop gedrukt")}
+        onPress={() => {
+          setSearchQuery("");
+          setSelectedCategory("");
+          setSortOption("price-asc");
+        }}
       >
-        <Text style={styles.buttonText}>Zoeken</Text>
+        <Text style={styles.buttonText}>Reset filters</Text>
       </Pressable>
 
       <Text style={styles.sectionTitle}>Producten</Text>
@@ -172,17 +186,21 @@ const HomeScreen = ({ navigation }) => {
         />
       ))}
 
-      <Text style={styles.blogTitle}>Blogs</Text>
+      {showBlogs && (
+        <>
+          <Text style={styles.blogTitle}>Blogs</Text>
 
-      {blogs.map((blog) => (
-        <BlogCard
-          key={blog.id}
-          title={blog.title}
-          description={blog.description}
-          image={blog.image}
-          onPress={() => navigation.navigate("BlogDetail", blog)}
-        />
-      ))}
+          {blogs.map((blog) => (
+            <BlogCard
+              key={blog.id}
+              title={blog.title}
+              description={blog.description}
+              image={blog.image}
+              onPress={() => navigation.navigate("BlogDetail", blog)}
+            />
+          ))}
+        </>
+      )}
     </ScrollView>
   );
 };
@@ -208,10 +226,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 12,
     height: 45,
-  },
-  picker: {
-    backgroundColor: "#fff",
-    marginBottom: 10,
   },
   row: {
     flexDirection: "row",

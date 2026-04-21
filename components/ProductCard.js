@@ -8,7 +8,7 @@ const ProductCard = ({ title, description, price, image, onPress }) => {
 
       <Text style={styles.title}>{title}</Text>
 
-      <Text style={styles.price}>€ {price},00</Text>
+      <Text style={styles.price}>€ {price}</Text>
 
       <Text style={styles.description}>{description}</Text>
 
